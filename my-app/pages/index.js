@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { Flex, Box, Text, Button } from '@chakra-ui/react';
 import { baseUrl, fetchApi } from '../utils/fetchAPI';
 
+import Property from '../components/Property';
+
 const Banner = ({purpose ,imageUrl, title1, title2, desc1, desc2, linkText, buttonText}) => {
   return(
     <Flex wrap="wrap" justify="center" align="center" m="10">
@@ -38,12 +40,12 @@ export default function Home({ propertyForSale, propertyForRent }) {
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
       />
       <Flex flexWrap="wrap">
-        
+        {propertyForRent.map((property) => <Property property={property} key={property.id}/>)}
       </Flex>
       <Banner 
         purpose="BUY A HOME"
         title1="Find, Buy, & Own Your"
-        title2="Dream HOme"
+        title2="Dream Home"
         desc1="Explore Apartments, Homes, Villas"
         desc2="and more"
         buttonText="Explore Buying"
@@ -51,7 +53,7 @@ export default function Home({ propertyForSale, propertyForRent }) {
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
         />
         <Flex flexWrap="wrap">
-        
+          {propertyForSale.map((property) => <Property property={property} key={property.id}/>)}
         </Flex>
     </Box>
   )
