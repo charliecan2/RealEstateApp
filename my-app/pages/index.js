@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Flex, Box, Text, Button } from '@chakra-ui/react'
+import { Flex, Box, Text, Button } from '@chakra-ui/react';
+import { baseUrl, fetchApi } from '../utils/fetchAPI';
 
 const Banner = ({purpose ,imageUrl, title1, title2, desc1, desc2, linkText, buttonText}) => {
   return(
@@ -18,9 +19,13 @@ const Banner = ({purpose ,imageUrl, title1, title2, desc1, desc2, linkText, butt
   )
 }
 
-export default function Home() {
+// TODO: Fetch the properties and map over them into the Flex components below
+
+export default function Home({ propertyForSale, propertyForRent }) {
+  console.log(propertyForSale, propertyForRent)
+
   return (
-    <div>
+    <Box>
       <h1>Hello World</h1>
       <Banner
         purpose="RENT  A HOME"
@@ -31,7 +36,10 @@ export default function Home() {
         buttonText="Explore Renting"
         linkText="/search?purpose=for-rent"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
-        />
+      />
+      <Flex flexWrap="wrap">
+        
+      </Flex>
       <Banner 
         purpose="BUY A HOME"
         title1="Find, Buy, & Own Your"
@@ -42,6 +50,21 @@ export default function Home() {
         linkText="/search?purpose=for-sale"
         imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
         />
-    </div>
+        <Flex flexWrap="wrap">
+        
+        </Flex>
+    </Box>
   )
+}
+
+export async function getStaticProps(){
+  const propertyForSale = await fetchApi(`${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`);
+  const propertyForRent = await fetchApi(`${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`);
+
+  return {
+    props: {
+      propertyForSale: propertyForSale?.hits,
+      propertyForRent: propertyForRent?.hits
+    }
+  }
 }
