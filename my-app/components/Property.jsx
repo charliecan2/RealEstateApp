@@ -25,7 +25,16 @@ export default function Property({ property: { coverPhoto, price, rentFrequency,
                     </Box>
                     <Text fontWeight="bold" fontSize="large">AED {millify(price)}{rentFrequency && `${rentFrequency}`}</Text>
                 </Flex>
+                <Box>
+                    <Avatar size="sm" src={agency?.logo?.url}/>
+                </Box>
             </Flex>
+            <Flex alignItems="center" p="1" justifyContent="space-between" width="250px" color="blue.400">
+              {rooms} <FaBed /> | {baths} <FaBath /> | {millify(area)} sqft <BsGridFill />
+            </Flex>
+            <Text fontSize="lg">
+              {title.length > 30 ? `${title.substring(0, 30)}...`: title}
+            </Text>
           </Box>
         </Flex>
       </Link>
